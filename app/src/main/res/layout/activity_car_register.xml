@@ -47,8 +47,7 @@
         android:layout_marginTop="2dp"
         android:ems="10"
         android:hint="@string/car_color"
-        android:inputType="number"
-        android:maxLength="4"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/car_plate" />
 </androidx.constraintlayout.widget.ConstraintLayout>
