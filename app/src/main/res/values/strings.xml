@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">AppVeiculo</string>
+    <string name="register_car">Cadastrar novo</string>
+    <string name="save">Salvar</string>
+
+    <string name="car_name">Nome</string>
+    <string name="car_plate">Placa</string>
+    <string name="car_color">Cor</string>
+    <string name="add_gas">Abastecer</string>
+    <string name="view_gases">Ver abastecimentos</string>
+    <string name="edit">Editar</string>
+    <string name="remove">Remover</string>
+    <string name="liters">Litros</string>
+    <string name="value">Valor</string>
+    <string name="saveButtonGas">Salvar</string>
+</resources>
