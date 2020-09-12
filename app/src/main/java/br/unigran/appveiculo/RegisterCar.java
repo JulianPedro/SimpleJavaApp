@@ -10,14 +10,14 @@ import android.widget.EditText;
 import java.util.List;
 
 import br.unigran.domain.Car;
-import br.unigran.domain.CarDAO;
+import br.unigran.domain.CarDAODB;
 
 public class RegisterCar extends AppCompatActivity {
 
     private EditText name;
     private EditText color;
     private EditText plate;
-    private String carUUID;
+    private Integer carID;
     private Car editCar = null;
 
     @Override
@@ -27,10 +27,10 @@ public class RegisterCar extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            carUUID = (String) bundle.get("uuid");
-            List<Car> cars = CarDAO.getData();
+            carID = (Integer) bundle.get("id");
+            List<Car> cars = CarDAODB.getCars();
             for (Car car: cars) {
-                if(car.getId().equals(carUUID)) {
+                if(car.getId().equals(carID)) {
                     editCar = car;
                 }
             }
@@ -51,12 +51,13 @@ public class RegisterCar extends AppCompatActivity {
            editCar.setName(name.getText().toString());
            editCar.setColor(color.getText().toString());
            editCar.setPlate(plate.getText().toString());
+           CarDAODB.updateCar(editCar);
         } else {
             Car car = new Car();
             car.setName(name.getText().toString());
             car.setColor(color.getText().toString());
             car.setPlate(plate.getText().toString());
-            CarDAO.save(car);
+            CarDAODB.insertCar(car);
         }
         super.onBackPressed();
     }

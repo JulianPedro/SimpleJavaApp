@@ -1,31 +1,23 @@
 package br.unigran.domain;
 
 public class Gas {
-    private double liters;
-    private double value;
-    private Car car;
+    private Integer id;
+    private Float liters;
+    private Float value;
+    private Integer car;
 
-    public double getLiters() {
+    public float getLiters() {
         return liters;
     }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
-
-    public void setLiters(double liters) {
-        this.liters = liters;
-    }
-
-    public double getValue() {
+    public float getValue() {
         return value;
     }
+    public Integer getCar() { return car; }
 
-    public void setValue(double value) {
+    public void setId(Integer id) { this.id = id; }
+    public void setCar(Integer car) { this.car = car; }
+    public void setLiters(Float liters) { this.liters = liters; }
+    public void setValue(Float value) {
         this.value = value;
     }
 

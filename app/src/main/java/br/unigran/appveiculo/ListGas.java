@@ -8,14 +8,14 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import br.unigran.domain.Car;
-import br.unigran.domain.CarDAO;
-import br.unigran.domain.GasDAO;
+import br.unigran.database.DataBase;
+import br.unigran.domain.CarDAODB;
+import br.unigran.domain.GasDAODB;
 
 public class ListGas extends AppCompatActivity {
 
     private ListView listGas;
-    private String carUUID;
+    private Integer carID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class ListGas extends AppCompatActivity {
         setContentView(R.layout.activity_list_gas);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        carUUID = (String) bundle.get("uuid");
+        carID = (Integer) bundle.get("id");
         listGas=findViewById(R.id.listGas);
         reloadList();
     }
@@ -35,8 +35,10 @@ public class ListGas extends AppCompatActivity {
     }
 
     public void reloadList(){
+        DataBase dataBase = new DataBase(this);
+        GasDAODB dao = new GasDAODB(dataBase.getWritableDatabase());
         ArrayAdapter adapter = new ArrayAdapter(this,
-                R.layout.support_simple_spinner_dropdown_item, GasDAO.getData(carUUID));
+                R.layout.support_simple_spinner_dropdown_item, dao.getGas(carID));
         listGas.setAdapter(adapter);
     }
 }

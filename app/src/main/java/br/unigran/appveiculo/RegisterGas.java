@@ -7,19 +7,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import br.unigran.database.DataBase;
 import br.unigran.domain.Car;
-import br.unigran.domain.CarDAO;
+import br.unigran.domain.CarDAODB;
 import br.unigran.domain.Gas;
-import br.unigran.domain.GasDAO;
+import br.unigran.domain.GasDAODB;
 
 public class RegisterGas extends AppCompatActivity {
 
     private EditText liters;
     private EditText value;
-    private String carUUID;
+    private Integer carID;
+    private DataBase dataBase;
+    private GasDAODB gasDAODB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class RegisterGas extends AppCompatActivity {
         setContentView(R.layout.activity_register_gas);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        carUUID = (String) bundle.get("uuid");
+        carID = (Integer) bundle.get("id");
         liters = findViewById(R.id.liters);
         value = findViewById(R.id.value);
     }
@@ -35,15 +37,18 @@ public class RegisterGas extends AppCompatActivity {
     /*** @param view*/
     public void saveGas(View view){
         Gas gas = new Gas();
-        List<Car> cars = CarDAO.getData();
+        List<Car> cars = CarDAODB.getCars();
         for (Car car: cars) {
-            if (car.getId().equals(carUUID)) {
-                gas.setCar(car);
+            if (car.getId().equals(carID)) {
+                gas.setCar(car.getId());
             }
         }
-        gas.setLiters(Double.parseDouble(liters.getText().toString()));
-        gas.setValue(Double.parseDouble(value.getText().toString()));
-        GasDAO.save(gas);
+        gas.setLiters(Float.parseFloat(liters.getText().toString()));
+        gas.setValue(Float.parseFloat(value.getText().toString()));
+        gas.setCar(carID);
+        dataBase = new DataBase(this);
+        gasDAODB = new GasDAODB(dataBase.getWritableDatabase());
+        gasDAODB.insertGAS(gas);
         super.onBackPressed();
     }
 }

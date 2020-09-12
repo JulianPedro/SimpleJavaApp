@@ -8,51 +8,55 @@ import android.view.View;
 
 import java.util.List;
 
+import br.unigran.database.DataBase;
 import br.unigran.domain.Car;
-import br.unigran.domain.CarDAO;
+import br.unigran.domain.CarDAODB;
 
 public class Actions extends AppCompatActivity {
 
-    private String carUUID;
+    private DataBase dataBase;
+    private CarDAODB cardaodb;
+    private Integer carID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dataBase = new DataBase(this);
+        cardaodb = new CarDAODB(dataBase.getWritableDatabase());
         setContentView(R.layout.activity_actions);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        carUUID = (String) bundle.get("uuid");
+        carID = (Integer) bundle.get("id");
     }
 
     public void addGas(View view) {
         Intent intent = new Intent(Actions.this, RegisterGas.class);
-        intent.putExtra("uuid", carUUID);
+        intent.putExtra("id", carID);
         startActivityForResult(intent,121);
     }
 
     public void listGas(View view) {
         Intent intent = new Intent(Actions.this, ListGas.class);
-        intent.putExtra("uuid", carUUID);
+        intent.putExtra("id", carID);
         startActivityForResult(intent,121);
     }
 
     public void editCar(View view) {
         Intent intent = new Intent(Actions.this, RegisterCar.class);
-        intent.putExtra("uuid", carUUID);
+        intent.putExtra("id", carID);
         startActivityForResult(intent,121);
     }
 
     public void removeCar(View View) {
         Intent intent = new Intent(Actions.this, MainActivity.class);
-        List<Car> cars = CarDAO.getData();
+        List<Car> cars = CarDAODB.getCars();
         Car carForRemove = null;
-        System.out.println(cars);
         for(Car car: cars) {
-            if(car.getId().equals(carUUID)) {
+            if(car.getId().equals(carID)) {
                 carForRemove = car;
             }
         }
-        CarDAO.remove(carForRemove);
+        CarDAODB.deleteCar(carForRemove.getId());
         startActivityForResult(intent, 121);
     }
 
